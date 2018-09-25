@@ -1,29 +1,23 @@
 package rpc;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
- * Servlet implementation class SearchItem
+ * Servlet implementation class ItemHistory
  */
-@WebServlet("/search")
-public class SearchItem extends HttpServlet {
+@WebServlet("/history")
+public class ItemHistory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchItem() {
+    public ItemHistory() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,21 +27,7 @@ public class SearchItem extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType( "application/json" );
-		
-		PrintWriter out = response.getWriter();
-		JSONArray array = new JSONArray();
-		
-		try {
-			array.put( new JSONObject().put( "username", "abc" ) );
-			array.put( new JSONObject().put( "username", "123" ) );
-		}
-		catch ( JSONException e ) {
-			e.printStackTrace();
-		}
-			
-		RpcHelper.writeJSONArray(response, array);
-		out.close();
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -56,6 +36,13 @@ public class SearchItem extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 	}
 
 }

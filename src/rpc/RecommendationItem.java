@@ -14,16 +14,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Servlet implementation class SearchItem
+ * Servlet implementation class RecommendationItem
  */
-@WebServlet("/search")
-public class SearchItem extends HttpServlet {
+@WebServlet("/recommendation")
+public class RecommendationItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchItem() {
+    public RecommendationItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,16 +36,15 @@ public class SearchItem extends HttpServlet {
 		response.setContentType( "application/json" );
 		
 		PrintWriter out = response.getWriter();
-		JSONArray array = new JSONArray();
 		
+		JSONArray array = new JSONArray();
 		try {
-			array.put( new JSONObject().put( "username", "abc" ) );
-			array.put( new JSONObject().put( "username", "123" ) );
+			array.put( new JSONObject().put( "username", "abcd" ).put( "address", "San Francisco" ).put( "time", "01/01/2017" ) );
+			array.put( new JSONObject().put( "username", "1234" ).put( "address", "San Jose" ).put( "time", "01/02/2017" ) );
 		}
 		catch ( JSONException e ) {
 			e.printStackTrace();
 		}
-			
 		RpcHelper.writeJSONArray(response, array);
 		out.close();
 	}
