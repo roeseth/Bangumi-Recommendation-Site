@@ -16,8 +16,8 @@ public class RpcHelper {
 	// write a JSONArray to HTTP response
 	public static void writeJSONArray( HttpServletResponse response, JSONArray array ) throws IOException {
 		PrintWriter out = response.getWriter();
-		response.setContentType(TYPE);
-		response.addHeader(ALLOWED, "*");
+		response.setContentType( TYPE );
+		response.addHeader( ALLOWED, "*" );
 		out.print( array );
 		out.close();
 	}
@@ -25,8 +25,8 @@ public class RpcHelper {
 	// write a JSONObject to HTTP response
 	public static void writeJSONObject( HttpServletResponse response, JSONObject obj ) throws IOException {
 		PrintWriter out = response.getWriter();
-		response.setContentType(TYPE);
-		response.addHeader(ALLOWED, "*");
+		response.setContentType( TYPE );
+		response.addHeader( ALLOWED, "*" );
 		out.print( obj );
 		out.close();
 	}
