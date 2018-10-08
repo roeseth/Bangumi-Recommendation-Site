@@ -13,8 +13,8 @@ public class Item {
 	private int type;
 	private String summary;
 	private int episodes;
-	private Set<String> rating;
-	private Set<String> images;
+	private double rating;
+	private String images;
 	private String url;
 	
 	public JSONObject toJSONObject() {
@@ -26,8 +26,8 @@ public class Item {
 			obj.put( "type", type );
 			obj.put( "summary", summary );
 			obj.put( "eps", episodes );
-			obj.put( "rating", new JSONArray( rating ) );
-			obj.put( "images", new JSONArray( images ) );
+			//obj.put( "rating", new JSONArray( rating ) );
+			obj.put( "images", images );
 			obj.put( "url", url );
 		} catch ( JSONException e ) {
 			e.printStackTrace();
@@ -42,7 +42,7 @@ public class Item {
 		this.type = builder.type;
 		this.summary = builder.summary;
 		this.episodes = builder.episodes;
-		this.rating = builder.rating;
+		//this.rating = builder.rating;
 		this.images = builder.images;
 		this.url = builder.url;
 	}
@@ -72,12 +72,12 @@ public class Item {
 	}
 
 
-	public Set<String> getRating() {
+	public double getRating() {
 		return rating;
 	}
 
 
-	public Set<String> getImages() {
+	public String getImages() {
 		return images;
 	}
 
@@ -92,8 +92,8 @@ public class Item {
 		private int type;
 		private String summary;
 		private int episodes;
-		private Set<String> rating;
-		private Set<String> images;
+		private double rating;
+		private String images;
 		private String url;
 		
 		public ItemBuilder setItemId( String itemId ) {
@@ -121,12 +121,12 @@ public class Item {
 			return this;
 		}
 		
-		public ItemBuilder setRating( Set<String> rating ) {
+		public ItemBuilder setRating( double rating ) {
 			this.rating = rating;
 			return this;
 		}
 		
-		public ItemBuilder setImages( Set<String> images ) {
+		public ItemBuilder setImages( String images ) {
 			this.images = images;
 			return this;
 		}

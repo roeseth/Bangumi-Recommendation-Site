@@ -27,7 +27,7 @@ public class BangumiAPI {
 	private static final String TOKEN_TYPE = "Bearer";
 	private static final String API_KEY = "4a75cb0d0be46787a9e7752bfcd8a97cbb951520";
 	
-	public JSONArray search( String username, String cat ) {
+	public List<Item> search( String username, String cat ) {
 		if ( username == null || username.isEmpty() ) {
 			username = DEFAULT_TERM;
 		}
@@ -60,12 +60,13 @@ public class BangumiAPI {
 			
 			int responseCode = connection.getResponseCode();
 			
-			//for debug
+			// for debug
 			System.out.println( "Sending Request to URL:" + url );
 			System.out.println( "Response Code:" + responseCode );
 			
 			if ( responseCode != 200 ) {
-				return new JSONArray();
+				return new ArrayList<>();
+//				return new JSONArray();
 			}
 			
 			BufferedReader in = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
@@ -76,20 +77,17 @@ public class BangumiAPI {
 				response.append( inputLine );
 			}
 			in.close();
-			JSONArray array = new JSONArray( response.toString() );
-			return array;
-			/*
-			if ( obj.isNull( "username" ) ) {
-				return obj.getJSONArray( "username" );
-			}
-			*/
 			
+			return getItemList( new JSONArray( response.toString() ) );
+//			return new JSONArray( response.toString() );
 		}
+			
 		catch ( Exception e) {
 			e.printStackTrace();
 		}
 		
-		return new JSONArray();
+		return new ArrayList<>();
+//		return new JSONArray();
 	}
 	
 	// Convert JSONArray to a list of Item object.
@@ -120,7 +118,7 @@ public class BangumiAPI {
 				builder.setUrl( item.getString("url") );
 			}
 			
-			builder.setRating( getRating(item) );
+			//builder.setRating( getRating(item) );
 			builder.setImages( getImages(item) );
 			
 			list.add( builder.builder() );
@@ -129,34 +127,56 @@ public class BangumiAPI {
 		return list;
 	}
 	
-	// helper to
-	private Set<String> getRating( JSONObject item ) throws JSONException {
-		Set<String> rating = new HashSet<>();
-
-		return rating;
+	// Helper to
+	private double getRating( JSONObject item ) throws JSONException {
+		double score = 0;
+		if ( !item.isNull( "rating" ) ) {
+			JSONArray array = item.getJSONArray( "rating" );
+			for ( int i = 0; i < array.length(); i++ ) {
+				JSONObject rating = array.getJSONObject(i);
+				if ( !rating.isNull( "score" ) ) {
+					score = rating.getDouble( "score" );
+				}
+			}
+		}
+		return score;
 	}
 
-	private Set<String> getImages( JSONObject item ) throws JSONException {
-		Set<String> images = new HashSet<>();
-
-		return images;
+	private String getImages( JSONObject item ) throws JSONException {
+		String image = null;
+		if( !item.isNull( "images" ) ) {
+			JSONObject images = item.getJSONObject( "images" );
+			if( !images.isNull("large") ) {
+				image = images.getString( "large" );
+			}
+		}
+		return image;
 
 	}
 	
 	private void queryAPI( String username ) {
-		JSONArray items = search( username, null );
-		try {
-			for ( int i=0; i < items.length(); i++ ) {
-				JSONObject item = items.getJSONObject( i );
-				System.out.println( item );
-			}
+		List<Item> itemList = search( username, null );
+		for( Item item : itemList ) {
+			item.toJSONObject();
+			JSONObject jsonObject = item.toJSONObject();
+			System.out.println( jsonObject );
 		}
-		catch ( JSONException e ) {
-			e.printStackTrace();
-		}
+		// old JSONArray API
+//		JSONArray array = search( username, null );
+//		for ( int i = 0; i < array.length(); i++ ) {
+//			try {
+//				JSONObject obj = array.getJSONObject(i);
+//				System.out.println( obj );
+//			}
+//			catch ( JSONException e ) {
+//				e.printStackTrace();
+//			}
+//			
+//		}
+		
 	}
 	
-	// testing
+	// Testing
 	public static void main( String[] args ) {
 		BangumiAPI tmpAPI = new BangumiAPI();
 		tmpAPI.queryAPI("roeseth");
