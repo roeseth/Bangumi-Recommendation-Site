@@ -1,0 +1,300 @@
+* {
+    box-sizing: boarder-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #F4F4F4;
+    color: #000000;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.9em
+}
+
+ul {
+    list-style: none;
+}
+
+
+/**
+* top header
+*/
+.top-header {
+    align-items: center;
+    background: #F09199;
+    box-shadow: 0px 0px 4px #555555;
+    display: flex;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px;
+    z-index: 1;
+
+}
+
+
+.avatar {
+    background: #FFFFFF;
+    border-radius: 25%;
+    color: #F09199;
+    height: 40px;
+    margin-right: 20px;
+    padding-left: 7.5px;
+    padding-top: 6px;
+    width: 40px;
+}
+
+
+/**
+* top navigation
+*/
+.top-nav {
+    flex: 1;
+}
+
+.top-nav a {
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 1em;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+#welcome-msg {
+    border-right: 1px solid #FFFFFF;
+    padding-right: 10px;
+}
+
+
+/**
+* main container
+*/
+.container {
+    margin: 60px auto;
+    max-width: 1000px;
+    min-width: 600px;
+}
+
+
+/**
+* main header
+*/
+.container>header {
+    align-items: center;
+    background:
+        url('https://www.wallpaperup.com/uploads/wallpapers/2012/08/14/10823/8d33257504368269f807197ed2391d0c.jpg') no-repeat 50% 50%;
+    background-size: 100%;
+    display: flex;
+    height: 250px;
+}
+
+.container>header p {
+    border-left: 20px solid #FFFFFF;
+    background-color: #222222;
+    color: #FFFFFF;
+    font-weight: 300;
+    font-size: 2em;
+    line-height: 1em;
+    margin-left: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    padding-right: 40px;
+
+}
+
+.container>header span {
+    color: #F09199;
+}
+
+
+/**
+* main section
+*/
+.main-section {
+    background: #F09199;
+    border-top: 3px solid #FFFFFF;
+    border-left: 3px solid #FFFFFF;
+
+}
+
+
+/**
+* aside
+*/
+#item-nav {
+    float: left;
+    width: 180px;
+
+}
+
+
+.nav-icon {
+    color: #FFFFFF;
+    padding: 15px;
+    text-align: center;
+}
+
+
+/**
+* main navigation
+*/
+.main-nav-btn {
+    background: none;
+    border-top: 3px solid #FFFFFF;
+    color: #FFFFFF;
+    display: block;
+    padding: 15px;
+    text-align: left;
+    text-decoration: none;
+}
+
+.main-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transition: background-color 200ms linear;
+    color: #F09199;
+    text-decoration: none;
+}
+
+.main-nav-btn.active {
+    background: #F4F4F4;
+    color: #222222;
+    font-weight: 400;
+
+}
+
+.main-nav-btn i {
+    width: 25px;
+}
+
+
+/**
+* item list
+*/
+#item-list {
+    border-right: 3px solid #FFFFFF;
+    background: #F4F4F4;
+    color: #222222;
+    list-style: none;
+    margin-left: 180px;
+    min-height: 250px;
+    padding: 10px;
+}
+
+#item-list .notice {
+    font-size: 16px;
+    padding: 60px;
+    text-align: center;
+}
+
+
+/**
+* item
+*/
+.item {
+    align-items: center;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    margin: 5px;
+    padding: 15px;
+    transition: background-color 200ms linear;
+}
+
+.item:last-child {
+    border: none;
+}
+
+.item:hover {
+    background: rgba(255, 255, 255, 1);
+    transition: background-color 200ms linear;
+}
+
+/* item image */
+.item img {
+    border: 1px solid #FFFFFF;
+    height: 100px;
+    width: 100px;
+}
+
+.item>div:first-of-type {
+    flex: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.item-name {
+    color: #222222;
+    font-weight: 600;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.item-name:hover {
+    text-decoration: underline;
+}
+
+.item-episodes {
+    line-height: 15px;
+    padding-right: 15px;
+    text-align: right;
+}
+
+.item-date {
+    line-height: 15px;
+    padding-right: 15px;
+    text-align: right;
+}
+
+.stars {
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+}
+
+.fav-link {
+    border-left: 2px solid #222222;
+    cursor: pointer;
+    line-height: 80px;
+    text-align: center;
+    width: 60px;
+}
+
+.item:hover+.fav-link {
+    border-left: 2px solid #222222;
+}
+
+.fav-link:hover {
+    color: #F13F3F;
+    transition: color 200ms linear;
+}
+
+
+/**
+* footer section
+*/
+footer {
+    background: #F4F4F4 font-size: 0.85 height: 200px;
+    position: relative;
+    border-top: 1px solid #FFFFFF;
+    margin: 20px;
+}
+
+footer p {
+    text-align: center;
+}
+
+footer p.title {
+    font-size: 1.2em;
+    padding-top: 15px;
+}
+
+footer ul {
+    align-items: center;
+    display: flex;
+    padding: 20px;
+}
+
+footer ul li {
+    flex: 1;
+}
