@@ -1,20 +1,17 @@
 package entity;
 
-import java.util.Set;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Item {
 	
-	private String itemId;
+	private int itemId;
 	private String name;
 	private int type;
 	private String summary;
 	private int episodes;
 	private double rating;
-	private String images;
+	private String imageUrl;
 	private String url;
 	
 	public JSONObject toJSONObject() {
@@ -26,8 +23,8 @@ public class Item {
 			obj.put( "type", type );
 			obj.put( "summary", summary );
 			obj.put( "eps", episodes );
-			//obj.put( "rating", new JSONArray( rating ) );
-			obj.put( "images", images );
+			obj.put( "rating", rating );
+			obj.put( "imageUrl", imageUrl );
 			obj.put( "url", url );
 		} catch ( JSONException e ) {
 			e.printStackTrace();
@@ -42,12 +39,12 @@ public class Item {
 		this.type = builder.type;
 		this.summary = builder.summary;
 		this.episodes = builder.episodes;
-		//this.rating = builder.rating;
-		this.images = builder.images;
+		this.rating = builder.rating;
+		this.imageUrl = builder.imageUrl;
 		this.url = builder.url;
 	}
 
-	public String getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 
@@ -77,8 +74,8 @@ public class Item {
 	}
 
 
-	public String getImages() {
-		return images;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
 
@@ -87,16 +84,16 @@ public class Item {
 	}
 	
 	public static class ItemBuilder {
-		private String itemId;
+		private int itemId;
 		private String name;
 		private int type;
 		private String summary;
 		private int episodes;
 		private double rating;
-		private String images;
+		private String imageUrl;
 		private String url;
 		
-		public ItemBuilder setItemId( String itemId ) {
+		public ItemBuilder setItemId( int itemId ) {
 			this.itemId = itemId;
 			return this;
 		}
@@ -126,8 +123,8 @@ public class Item {
 			return this;
 		}
 		
-		public ItemBuilder setImages( String images ) {
-			this.images = images;
+		public ItemBuilder setImageUrl( String imageUrl ) {
+			this.imageUrl = imageUrl;
 			return this;
 		}
 		
