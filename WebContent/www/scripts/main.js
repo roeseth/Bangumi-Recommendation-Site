@@ -7,7 +7,6 @@
     var user_fullname = 'John';
     var lng = -122.08;
     var lat = 37.38;
-
     /**
      * Initialize
      */
