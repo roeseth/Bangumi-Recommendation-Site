@@ -3,7 +3,7 @@ package db;
 public class MySQLDBUtil {
 	private static final String HOSTNAME = "localhost";
 	private static final String PORT_NUM = "3306";// local mysql port number
-	public static final String DB_NAME = "laiproject";
+	public static final String DB_NAME = "bangumi_project";
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "root";
 	public static final String URL = "jdbc:mysql://" + HOSTNAME + ":" + PORT_NUM + "/" + DB_NAME + "?user=" + USERNAME
