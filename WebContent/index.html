@@ -25,7 +25,7 @@
   <div class="container">
     <header>
       <p>
-        <span>MyAnimeList.net</span><br/>Anime<br/>Recommendation
+        <span class="first-title">MyAnimeList.net</span><br/><span>Anime</span><br/><span>Recommendation</span>
       </p>
     </header>
     
@@ -52,7 +52,7 @@
           <img alt="anime image" src="https://lain.bgm.tv/pic/cover/g/81/9c/236590_26wBR.jpg">
           <div>
             <a class="item-name" href="#">はねバド！</a>
-            <p class="item-tags">Tags:</p>
+            <p><span class="item-summary">Summary:</span><br/><span class="item-genres">Genres:</span></p>
             <div class="stars">
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
@@ -70,8 +70,8 @@
   </div>
   
   <footer>
-    <p class="title">Based on MyAnimeList.net and Jikan RESTful API</p>
-    <p>Recommend Animes based on your MyAnimeList Completed list<br/>Query with "?id=[Your MAL ID]" to see your collection.</p>
+    <p class="title">Based on <a href="https://myanimelist.net/">MyAnimeList.net</a> and <a href="https://jikan.docs.apiary.io/">Jikan RESTful API</a></p>
+    <p>Recommend Animes based on your MyAnimeList Completed Collection<br/>Query with "?id=[Your MAL ID]" to see your collection.</p>
     <ul>
       <li>
         <p><i class="fas fa-home fa-2x"></i></p>
@@ -85,6 +85,7 @@
   </footer>
   
   <script src="https://rawgit.com/emn178/js-md5/master/build/md5.min.js"></script>
-  <script src="scripts/main.js"></script>
+  <script src="scripts/mock_data.js"></script>
+  <script src="scripts/main0.js"></script>
 </body>
 </html>
