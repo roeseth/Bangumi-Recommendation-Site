@@ -34,13 +34,15 @@ public class MySQLTableCreation {
 				
 				// Create new tables
 				sql = "CREATE TABLE items ("
-						+ "item_id VARCHAR(255) NOT NULL,"
+						+ "item_id INT NOT NULL,"
 						+ "name VARCHAR(255),"
 						+ "rating FLOAT,"
+						+ "user_score FLOAT,"
 						+ "summary VARCHAR(255),"
 						+ "url VARCHAR(255),"
 						+ "image_url VARCHAR(255),"
 						+ "episodes INT,"
+						+ "air_date VARCHAR(255),"
 						+ "PRIMARY KEY (item_id)"
 						+ ")";
 				stmt.executeUpdate(sql);
@@ -55,7 +57,7 @@ public class MySQLTableCreation {
 				stmt.executeUpdate(sql);
 
 				sql = "CREATE TABLE tags ("
-						+ "item_id VARCHAR(255) NOT NULL,"
+						+ "item_id INT NOT NULL,"
 						+ "tag VARCHAR(255) NOT NULL,"
 						+ "PRIMARY KEY (item_id, tag),"
 						+ "FOREIGN KEY (item_id) REFERENCES items(item_id)"
@@ -64,7 +66,7 @@ public class MySQLTableCreation {
 
 				sql = "CREATE TABLE favorite ("
 						+ "user_id VARCHAR(255) NOT NULL,"
-						+ "item_id VARCHAR(255) NOT NULL,"
+						+ "item_id INT NOT NULL,"
 						+ "last_favor_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
 						+ "PRIMARY KEY (user_id, item_id),"
 						+ "FOREIGN KEY (item_id) REFERENCES items(item_id),"
@@ -72,7 +74,7 @@ public class MySQLTableCreation {
 						+ ")";
 				stmt.executeUpdate(sql);
 				
-				// Create fake user 101/fakeuser 9ae9a051134d57f067642f8ec438f3ad
+				// Create a fake user 101/fakeuser 9ae9a051134d57f067642f8ec438f3ad
 				sql = "INSERT INTO users VALUES ('101', '9ae9a051134d57f067642f8ec438f3ad', 'JB', 'HiFi')";
 				stmt.executeUpdate(sql);
 

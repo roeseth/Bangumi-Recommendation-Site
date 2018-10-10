@@ -3,7 +3,6 @@ package external;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -19,16 +18,11 @@ import org.json.JSONObject;
 import entity.Item;
 import entity.Item.ItemBuilder;
 
-import org.jsoup.*;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 
 public class JikanAPI {
 	private static final String HOST = "https://api.jikan.moe";
 	private static final String MIDPOINT = "/v3/user";
-	private static final String ENDPOINT = "/animelist/completed/1";
+	private static final String ENDPOINT = "/animelist/completed";
 	private static final String DEFAULT_TERM = "";
 	private static final int SEARCH_LIMIT = 20;
 
@@ -139,8 +133,8 @@ public class JikanAPI {
 	// Help to parse the genres from the new Json
 	private Set<String> getGenres( JSONObject item ) throws JSONException {
 		Set<String> genres = new HashSet<>();
-		if( !item.isNull( "genres" ) ) {
-			JSONArray array = item.getJSONArray( "genres" );
+		if( !item.isNull( "genre" ) ) {
+			JSONArray array = item.getJSONArray( "genre" );
 			for ( int i = 0; i < array.length(); i++ ) {
 				JSONObject genre = array.getJSONObject(i);
 				if( !genre.isNull( "name" ) ) {
@@ -200,6 +194,6 @@ public class JikanAPI {
 	
 	public static void main( String[] args ) {
 		JikanAPI tmpAPI = new JikanAPI();
-		tmpAPI.queryAPI("Infinite", 20);
+		tmpAPI.queryAPI("Infinite", 5);
 	}
 }
