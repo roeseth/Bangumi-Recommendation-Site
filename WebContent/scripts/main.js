@@ -2,7 +2,7 @@
 
     // the only pseudo user
     var user_id = '101';
-    var user_fullname = 'JB';
+    var user_fullname = 'John';
     var user_name = 'Infinite';
     var single_fetch_limit = 3;
 

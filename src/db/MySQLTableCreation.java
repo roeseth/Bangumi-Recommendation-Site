@@ -1,13 +1,16 @@
 package db;
 
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 
 public class MySQLTableCreation {
 	// Run as Java application to reset db schema.
 		public static void main(String[] args) {
+			clear();
+		}
+		
+		public static void clear() {
 			try {
 				// Connect to MySQL
 				System.out.println("Connecting to " + MySQLDBUtil.URL);
