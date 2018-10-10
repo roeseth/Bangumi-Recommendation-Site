@@ -32,7 +32,7 @@ public class SearchItem extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("user");
+		String username = request.getParameter("id");
 		// Limit term can be empty or null.
 		String limitTerm = request.getParameter("limit");
 		int limit = limitTerm == null ? 0 : Integer.parseInt(limitTerm);

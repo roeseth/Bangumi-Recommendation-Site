@@ -104,10 +104,6 @@
         element.style.display = displayStyle;
     }
 
-    // -------------------------------------
-    // Create item list
-    // -------------------------------------
-
     /**
      * List items
      * 

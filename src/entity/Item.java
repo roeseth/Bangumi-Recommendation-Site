@@ -84,6 +84,34 @@ public class Item {
 		return genres;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		String itemString = Integer.toString(itemId);
+		result = prime * result + (( itemString == null) ? 0 : itemString.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		String itemString = Integer.toString(itemId);
+		if (itemString == null) {
+			if (Integer.toString(other.itemId) != null )
+				return false;
+		}
+		else if (itemId != other.itemId)
+			return false;
+		return true;
+	}
+
 	public double getRating() {
 		return rating;
 	}
@@ -160,7 +188,7 @@ public class Item {
 			return this;
 		}
 		
-		public Item builder() {
+		public Item build() {
 			return new Item( this );
 		}
 		

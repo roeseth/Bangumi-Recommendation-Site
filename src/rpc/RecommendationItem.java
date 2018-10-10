@@ -1,7 +1,7 @@
 package rpc;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import algorithm.Recommendation;
+import entity.Item;
 
 /**
  * Servlet implementation class RecommendationItem
@@ -32,21 +32,22 @@ public class RecommendationItem extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.setContentType( "application/json" );
-		
-		PrintWriter out = response.getWriter();
-		
-		JSONArray array = new JSONArray();
+		String userId = request.getParameter("user_id");
+		String limitTerm = request.getParameter("limit");
+		int limit = (limitTerm == null) ? 0 : Integer.parseInt(limitTerm);
+		Recommendation recommendation = new Recommendation();
+		List<Item> items = recommendation.recommendItems(userId, limit);
+
+		JSONArray result = new JSONArray();
 		try {
-			array.put( new JSONObject().put( "username", "abcd" ).put( "address", "San Francisco" ).put( "time", "01/01/2017" ) );
-			array.put( new JSONObject().put( "username", "1234" ).put( "address", "San Jose" ).put( "time", "01/02/2017" ) );
-		}
-		catch ( JSONException e ) {
+			for (Item item : items) {
+				result.put(item.toJSONObject());
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RpcHelper.writeJSONArray(response, array);
-		out.close();
+		RpcHelper.writeJSONArray(response, result);
+
 	}
 
 	/**

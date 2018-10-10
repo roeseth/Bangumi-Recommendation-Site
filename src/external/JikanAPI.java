@@ -7,8 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -25,9 +27,56 @@ public class JikanAPI {
 	private static final String ENDPOINT = "/animelist/completed";
 	private static final String DEFAULT_TERM = "";
 	private static final int SEARCH_LIMIT = 20;
+	private Map<String, Integer> map = new HashMap<>();
 
 //	private static final String TOKEN_TYPE = "Bearer";
 //	private static final String API_KEY = "f30ff8ec0677a6ecd38e0d1a9f00a87041bac1c8";
+	
+	public JikanAPI() {
+		map.put("Action", 1);
+		map.put("Adventure", 2);
+		map.put("Cars", 3);
+		map.put("Comedy", 4);
+		map.put("Dementia", 5);
+		map.put("Demons", 6);
+		map.put("Mystery", 7);
+		map.put("Drama", 8);
+		map.put("Ecchi", 9);
+		map.put("Fantasy", 10);
+		map.put("Game", 11);
+		map.put("Hentai", 12);
+		map.put("Historical", 13);
+		map.put("Horror", 14);
+		map.put("Kids", 15);
+		map.put("Magic", 16);
+		map.put("Martial Arts", 17);
+		map.put("Mecha", 18);
+		map.put("Music", 19);
+		map.put("Parody", 20);
+		map.put("Samurai", 21);
+		map.put("Romance", 22);
+		map.put("School", 23);
+		map.put("Sci-Fi", 24);
+		map.put("Shoujo", 25);
+		map.put("Shoujo Ai", 26);
+		map.put("Shounen", 27);
+		map.put("Shounen Ai", 28);
+		map.put("Space", 29);
+		map.put("Sports", 30);
+		map.put("Super Power", 31);
+		map.put("Vampire", 32);
+		map.put("Yaoi", 33);
+		map.put("Yuri", 34);
+		map.put("Harem", 35);
+		map.put("Slice of Life", 36);
+		map.put("Supernatural", 37);
+		map.put("Military", 38);
+		map.put("Police", 39);
+		map.put("Psychological", 40);
+		map.put("Thriller", 41);
+		map.put("Seinen", 42);
+		map.put("Josei", 43);
+	}
 	
 	public List<Item> search( String username, int searchLimit) {
 		if ( username == null || username.isEmpty() ) {
@@ -53,11 +102,43 @@ public class JikanAPI {
 		return null;
 	}
 	
+	public List<Item> searchByGenre(String genre, int limit) {
+		if ( genre == null || genre.isEmpty() ) {
+			genre = DEFAULT_TERM;
+		}
+		try {
+			genre = URLEncoder.encode( genre, "UTF-8" );
+		}
+		catch ( Exception e) {
+			e.printStackTrace();
+		}
+		String url = HOST + "/v3/search/anime?genre=" + getGenreCode(genre) + "&limit=" + limit;
+		StringBuilder response = getJSONString(url);
+		
+		try {
+			return getItemList( new JSONObject( response.toString() ), limit );
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private int getGenreCode(String genre) {
+		return map.get(genre);
+	}
+
 	// Convert the entire JSONArray from API to a list of Item object.
 	private List<Item> getItemList( JSONObject jsonObj, int searchLimit ) throws JSONException, IOException {
 		List<Item> list = new ArrayList<>();
-		
-		JSONArray anime = jsonObj.getJSONArray("anime");
+		JSONArray anime = null;
+		if( !jsonObj.isNull("anime") ) {
+			anime = jsonObj.getJSONArray("anime");
+		}
+		else if ( !jsonObj.isNull("results") ) {
+			anime = jsonObj.getJSONArray("results");
+		}
 		if (searchLimit == 0) {
 			searchLimit = SEARCH_LIMIT;
 		}
@@ -97,7 +178,7 @@ public class JikanAPI {
 			builder.setGenres(getGenres(singleEntry));
 			builder.setName(getName(singleEntry));
 			
-			list.add( builder.builder() );
+			list.add( builder.build() );
 			
 		}
 		
@@ -196,4 +277,5 @@ public class JikanAPI {
 		JikanAPI tmpAPI = new JikanAPI();
 		tmpAPI.queryAPI("Infinite", 5);
 	}
+
 }

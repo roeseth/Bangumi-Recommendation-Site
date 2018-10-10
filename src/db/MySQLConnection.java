@@ -47,7 +47,7 @@ public class MySQLConnection {
 		}
 
 		try {
-			String sql = "INSERT IGNORE INTO history(user_id, item_id) VALUES (?, ?)";
+			String sql = "INSERT IGNORE INTO favorite(user_id, item_id) VALUES (?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
 			for (int itemId : itemIds) {
@@ -67,7 +67,7 @@ public class MySQLConnection {
 	   	       }
 	   	 
 	   	      try {
-	   		 String sql = "DELETE FROM history WHERE user_id = ? AND item_id = ?";
+	   		 String sql = "DELETE FROM favorite WHERE user_id = ? AND item_id = ?";
 	   		 PreparedStatement ps = conn.prepareStatement(sql);
 	   		 ps.setString(1, userId);
 	   		 for (int itemId : itemIds) {
@@ -81,21 +81,96 @@ public class MySQLConnection {
 
 	}
 
-	public Set<String> getFavoriteItemIds(String userId) {
-		return null;
+	public Set<Integer> getFavoriteItemIds(String userId) {
+		if (conn == null) {
+			return new HashSet<>();
+		}
+		Set<Integer> favoriteItemIds = new HashSet<>();
+		String sql = "SELECT item_id FROM favorite WHERE user_id = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				favoriteItemIds.add(rs.getInt("item_id"));
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return favoriteItemIds;
+
 	}
 
 	public Set<Item> getFavoriteItems(String userId) {
-		return null;
+		if (conn == null) {
+			return new HashSet<>();
+		}
+		Set<Item> favoriteItems = new HashSet<>();
+		Set<Integer> itemIds = getFavoriteItemIds(userId);
+		
+		String sql = "SELECT * FROM items WHERE item_id = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			for (int itemId : itemIds) {
+				ps.setInt(1, itemId);
+				ResultSet rs = ps.executeQuery();
+				
+				ItemBuilder builder = new ItemBuilder();
+				while (rs.next()) {
+					builder.setItemId(rs.getInt("item_id"));
+					builder.setName(rs.getString("name"));
+					builder.setSummary(rs.getString("summary"));
+					builder.setEpisodes(rs.getInt("episodes"));
+					builder.setUserScore(rs.getDouble("user_score"));
+					builder.setImageUrl(rs.getString("image_url"));
+					builder.setUrl(rs.getString("url"));
+					builder.setRating(rs.getDouble("rating"));
+					builder.setDate(rs.getString("air_date"));
+					builder.setGenres(getGenres(itemId));
+					
+					favoriteItems.add(builder.build());
+				}
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return favoriteItems;
 	}
 
-	public Set<String> getCategories(String itemId) {
-		return null;
+	public Set<String> getGenres(int itemId) {
+		if (conn == null) {
+			return null;
+		}
+		Set<String> tags = new HashSet<>();
+		String sql = "SELECT tag FROM tags WHERE item_id = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, itemId);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				tags.add(rs.getString("tag"));
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return tags;
 	}
 
 	public List<Item> searchItems( String username, int limit ) {
 		JikanAPI api = new JikanAPI();
 		List<Item> items = api.search(username, limit);
+		for (Item item : items) {
+			saveItem(item);
+		}
+		return items;
+	}
+	
+	public List<Item> searchItemsbyGenre( String genre, int limit ) {
+		JikanAPI api = new JikanAPI();
+		List<Item> items = api.searchByGenre(genre, limit);
 		for (Item item : items) {
 			saveItem(item);
 		}
@@ -122,7 +197,7 @@ public class MySQLConnection {
 			ps.setString(9, item.getDate());
 			ps.execute();
 
-			sql = "INSERT IGNORE INTO categories VALUES(?, ?)";
+			sql = "INSERT IGNORE INTO tags VALUES(?, ?)";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, item.getItemId());
 			for (String genre : item.getGenres()) {

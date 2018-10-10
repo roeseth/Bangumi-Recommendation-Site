@@ -1,76 +1,39 @@
-(function () {
+(function() {
 
-    /**
-     * Variables
-     */
-    var user_id = '1111';
-    var user_fullname = 'John';
-    var lng = -122.08;
-    var lat = 37.38;
+    // the only pseudo user
+    var user_id = '101';
+    var user_fullname = 'JB';
+    var user_name = 'Infinite';
+    var single_fetch_limit = 3;
+
+    user_name = (getQueryVariable('id')) == undefined ? user_name : getQueryVariable('id');
     /**
      * Initialize
      */
     function init() {
         // Register event listeners
-        $('nearby-btn').addEventListener('click', loadNearbyItems);
+        $('watched-btn').addEventListener('click', loadWatchedItems);
         $('fav-btn').addEventListener('click', loadFavoriteItems);
         $('recommend-btn').addEventListener('click', loadRecommendedItems);
 
         var welcomeMsg = $('welcome-msg');
         welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
-        initGeoLocation();
+        loadFavoriteItems();
     }
 
-    function initGeoLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(onPositionUpdated,
-                onLoadPositionFailed, {
-                    maximumAge: 60000
-                });
-            showLoadingMessage('Retrieving your location...');
-        } else {
-            onLoadPositionFailed();
-        }
-    }
-
-    function onPositionUpdated(position) {
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
-
-        loadNearbyItems();
-    }
-
-    function onLoadPositionFailed() {
-        console.warn('navigator.geolocation is not available');
-        getLocationFromIP();
-    }
-
-    function getLocationFromIP() {
-        // Get location from http://ipinfo.io/json
-        var url = 'http://ipinfo.io/json'
-        var req = null;
-        ajax('GET', url, req, function (res) {
-            var result = JSON.parse(res);
-            if ('loc' in result) {
-                var loc = result.loc.split(',');
-                lat = loc[0];
-                lng = loc[1];
-            } else {
-                console.warn('Getting location by IP failed.');
-            }
-            loadNearbyItems();
-        });
-    }
-
-    // -----------------------------------
-    // Helper Functions
-    // -----------------------------------
+    function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
 
     /**
      * A helper function that makes a navigation button active
-     * 
-     * @param btnId -
-     *            The id of the navigation button
      */
     function activeBtn(btnId) {
         var btns = document.getElementsByClassName('main-nav-btn');
@@ -80,26 +43,26 @@
             btns[i].className = btns[i].className.replace(/\bactive\b/, '');
         }
 
-        // active the one that has id = btnId
+        // active btdId
         var btn = $(btnId);
         btn.className += ' active';
     }
 
     function showLoadingMessage(msg) {
         var itemList = $('item-list');
-        itemList.innerHTML = '<p class="notice"><i class="fa fa-spinner fa-spin"></i> ' +
+        itemList.innerHTML = '<p class="notice"><i class="fas fa-spinner fa-spin"></i> ' +
             msg + '</p>';
     }
 
     function showWarningMessage(msg) {
         var itemList = $('item-list');
-        itemList.innerHTML = '<p class="notice"><i class="fa fa-exclamation-triangle"></i> ' +
+        itemList.innerHTML = '<p class="notice"><i class="fas fa-exclamation-triangle"></i> ' +
             msg + '</p>';
     }
 
     function showErrorMessage(msg) {
         var itemList = $('item-list');
-        itemList.innerHTML = '<p class="notice"><i class="fa fa-exclamation-circle"></i> ' +
+        itemList.innerHTML = '<p class="notice"><i class="fas fa-exclamation-circle"></i> ' +
             msg + '</p>';
     }
 
@@ -110,6 +73,7 @@
      * @param options
      * @returns
      */
+    
     function $(tag, options) {
         if (!options) {
             return document.getElementById(tag);
@@ -135,7 +99,6 @@
         element.style.display = displayStyle;
     }
 
-
     /**
      * AJAX helper
      * 
@@ -153,15 +116,15 @@
 
         xhr.open(method, url, true);
 
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                callback(xhr.responseText);
-            } else {
-                errorHandler();
-            }
+        xhr.onload = function() {
+        	if (xhr.status === 200) {
+        		callback(xhr.responseText);
+        	} else {
+        		errorHandler();
+        	}
         };
 
-        xhr.onerror = function () {
+        xhr.onerror = function() {
             console.error("The request couldn't be completed.");
             errorHandler();
         };
@@ -174,44 +137,40 @@
             xhr.send(data);
         }
     }
-
-    // -------------------------------------
-    // AJAX call server-side APIs
-    // -------------------------------------
-
+    
+    // AJAX APIs
     /**
      * API #1 Load the nearby items API end point: [GET]
      * /Dashi/search?user_id=1111&lat=37.38&lon=-122.08
      */
-    function loadNearbyItems() {
-        console.log('loadNearbyItems');
-        activeBtn('nearby-btn');
+    function loadWatchedItems() {
+        console.log('loadWatchedItems');
+        activeBtn('watched-btn');
 
         // The request parameters
         var url = './search';
-        var params = 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lng;
+        var params = 'id=' + user_name;
         var req = JSON.stringify({});
 
         // display loading message
-        showLoadingMessage('Loading nearby items...');
+        showLoadingMessage('Loading watched Animes...');
 
         // make AJAX call
         ajax('GET', url + '?' + params, req,
             // successful callback
-            function (res) {
+            function(res) {
                 var items = JSON.parse(res);
                 if (!items || items.length === 0) {
-                    showWarningMessage('No nearby item.');
+                    showWarningMessage('No watched Anime.');
                 } else {
                     listItems(items);
                 }
             },
             // failed callback
-            function () {
-                showErrorMessage('Cannot load nearby items.');
+            function() {
+                showErrorMessage('Cannot load watched Animes.');
             });
     }
-
 
     /**
      * API #2 Load favorite (or visited) items API end point: [GET]
@@ -221,23 +180,23 @@
         activeBtn('fav-btn');
 
         // The request parameters
-        var url = './history';
+        var url = './favorite';
         var params = 'user_id=' + user_id;
         var req = JSON.stringify({});
 
         // display loading message
-        showLoadingMessage('Loading favorite items...');
+        showLoadingMessage('Loading favorite Animes...');
 
         // make AJAX call
-        ajax('GET', url + '?' + params, req, function (res) {
+        ajax('GET', url + '?' + params, req, function(res) {
             var items = JSON.parse(res);
             if (!items || items.length === 0) {
-                showWarningMessage('No favorite item.');
+                showWarningMessage('No favorite Anime.');
             } else {
                 listItems(items);
             }
-        }, function () {
-            showErrorMessage('Cannot load favorite items.');
+        }, function() {
+            showErrorMessage('Cannot load favorite Animes.');
         });
     }
 
@@ -250,12 +209,12 @@
 
         // The request parameters
         var url = './recommendation';
-        var params = 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lng;
+        var params = 'user_id=' + user_id + '&limit=' + single_fetch_limit;
 
         var req = JSON.stringify({});
 
         // display loading message
-        showLoadingMessage('Loading recommended items...');
+        showLoadingMessage('Loading recommended Animes...');
 
         // make AJAX call
         ajax(
@@ -263,17 +222,17 @@
             url + '?' + params,
             req,
             // successful callback
-            function (res) {
+            function(res) {
                 var items = JSON.parse(res);
                 if (!items || items.length === 0) {
-                    showWarningMessage('No recommended item. Make sure you have favorites.');
+                    showWarningMessage('No recommended Anime. Make sure you have favorites.');
                 } else {
                     listItems(items);
                 }
             },
             // failed callback
-            function () {
-                showErrorMessage('Cannot load recommended items.');
+            function() {
+                showErrorMessage('Cannot load recommended Animes.');
             });
     }
 
@@ -292,9 +251,8 @@
         var favIcon = $('fav-icon-' + item_id);
         var favorite = li.dataset.favorite !== 'true';
 
-
         // The request parameters
-        var url = './history';
+        var url = './favorite';
         var req = JSON.stringify({
             user_id: user_id,
             favorite: [item_id]
@@ -303,18 +261,14 @@
 
         ajax(method, url, req,
             // successful callback
-            function (res) {
+            function(res) {
                 var result = JSON.parse(res);
                 if (result.result === 'SUCCESS') {
                     li.dataset.favorite = favorite;
-                    favIcon.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
+                    favIcon.className = favorite ? 'fas fa-heart fa-2x' : 'far fa-heart fa-2x';
                 }
             });
     }
-
-    // -------------------------------------
-    // Create item list
-    // -------------------------------------
 
     /**
      * List items
@@ -343,21 +297,22 @@
      *            The item data (JSON object)
      */
     function addItem(itemList, item) {
-        var item_id = item.item_id;
+        var item_id = item.id;
 
-        // create the <li> tag and specify the id and class attributes
+        // create the <li> tag, including image and a div section
         var li = $('li', {
-            id: 'item-' + item_id,
+            id: 'item-' + item.id,
             className: 'item'
         });
+
         // set the data attribute
         li.dataset.item_id = item_id;
         li.dataset.favorite = item.favorite;
 
         // item image
-        if (item.image_url) {
+        if (item.imageUrl) {
             li.appendChild($('img', {
-                src: item.image_url
+                src: item.imageUrl
             }));
         } else {
             li.appendChild($(
@@ -365,7 +320,7 @@
                     src: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png'
                 }))
         }
-        // section
+        // div section (including name, summary, genres and stars )
         var section = $('div', {});
 
         // title
@@ -376,30 +331,38 @@
         });
         title.innerHTML = item.name;
         section.appendChild(title);
-
-        // category
-        var category = $('p', {
-            className: 'item-category'
+        
+        // summary
+        var p = $('p', {});
+        var summary = $('span', {
+            className: 'item-summary'
         });
-        category.innerHTML = 'Category: ' + item.categories.join(', ');
-        section.appendChild(category);
+        summary.innerHTML = item.summary.length > 50? item.summary.substring(0,250) + '......' : item.summary;
+        p.appendChild(summary);
+        p.appendChild(document.createElement("br"));
 
-        // TODO(vincent). here we might have a problem showing 3.5 as 3.
-        // stars
+        //genres
+        var genres = $('span', {
+            className: 'item-genres'
+        });
+        genres.innerHTML = '<strong>Genres</strong>: ' + item.genres.join(', ');
+        p.appendChild(genres);
+        section.appendChild(p);
+
         var stars = $('div', {
             className: 'stars'
         });
 
-        for (var i = 0; i < item.rating; i++) {
+        for (var i = 0; i < Math.floor(item.rating/2); i++) {
             var star = $('i', {
-                className: 'fa fa-star'
+                className: 'fas fa-star'
             });
             stars.appendChild(star);
         }
 
-        if (('' + item.rating).match(/\.5$/)) {
+        if (item.rating % 2 >= 1) {
             stars.appendChild($('i', {
-                className: 'fa fa-star-half-o'
+                className: 'fas fa-star-half'
             }));
         }
 
@@ -407,27 +370,35 @@
 
         li.appendChild(section);
 
-        // address
-        var address = $('p', {
-            className: 'item-address'
+        // episodes & date
+        var p2 = $('p',{});
+        var eps = $('span', {
+            className: 'item-episodes'
         });
+        eps.innerHTML = 'Episodes: ' + item.eps;
+        p2.appendChild(eps);
+        p2.appendChild(document.createElement("br"));
 
-        address.innerHTML = item.address.replace(/,/g, '<br/>').replace(/\"/g,
-            '');
-        li.appendChild(address);
+        var date = $('span', {
+            className: 'item-date'
+        });
+        date.innerHTML = 'Air Date: ' + item.date;
+        p2.appendChild(date);
+
+        li.appendChild(p2);
 
         // favorite link
-        var favLink = $('p', {
+        var favLink = $('div', {
             className: 'fav-link'
         });
 
-        favLink.onclick = function () {
+        favLink.onclick = function() {
             changeFavoriteItem(item_id);
         };
 
         favLink.appendChild($('i', {
             id: 'fav-icon-' + item_id,
-            className: item.favorite ? 'fa fa-heart' : 'fa fa-heart-o'
+            className: item.favorite ? 'fas fa-heart fa-2x' : 'far fa-heart fa-2x'
         }));
 
         li.appendChild(favLink);
