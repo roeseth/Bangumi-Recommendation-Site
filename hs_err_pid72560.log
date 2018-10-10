@@ -1,0 +1,123 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 536870912 bytes for Failed to commit area from 0x00000000c0000000 to 0x00000000e0000000 of length 536870912.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3331), pid=72560, tid=0x0000000000011ba8
+#
+# JRE version:  (8.0_172-b11) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.172-b11 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000000028b3800):  JavaThread "Unknown thread" [_thread_in_vm, id=72616, stack(0x00000000027b0000,0x00000000028b0000)]
+
+Stack: [0x00000000027b0000,0x00000000028b0000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00000000028b3800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=72616, stack(0x00000000027b0000,0x00000000028b0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00000000028b1560] Heap_lock - owner thread: 0x00000000028b3800
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff775180000 - 0x00007ff7751b7000 	C:\Program Files\Java\jdk1.8.0_172\bin\java.exe
+0x00007ffaa53d0000 - 0x00007ffaa55bd000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffaa27f0000 - 0x00007ffaa28a3000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffaa2280000 - 0x00007ffaa2513000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffaa3990000 - 0x00007ffaa3a33000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffaa2f60000 - 0x00007ffaa2ffe000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffaa2ac0000 - 0x00007ffaa2b5e000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffaa3860000 - 0x00007ffaa3983000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffaa50a0000 - 0x00007ffaa5237000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffaa14a0000 - 0x00007ffaa14c0000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffaa37f0000 - 0x00007ffaa3819000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffaa14f0000 - 0x00007ffaa168a000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffaa1760000 - 0x00007ffaa1800000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffaa2180000 - 0x00007ffaa227c000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffa94710000 - 0x00007ffa94989000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.1_none_f040600eff408c2d\COMCTL32.dll
+0x00007ffaa2b60000 - 0x00007ffaa2e8e000 	C:\WINDOWS\System32\combase.dll
+0x00007ffaa2520000 - 0x00007ffaa259e000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffaa3830000 - 0x00007ffaa385e000 	C:\WINDOWS\System32\IMM32.DLL
+0x000000005b980000 - 0x000000005ba52000 	C:\Program Files\Java\jdk1.8.0_172\jre\bin\msvcr100.dll
+0x000000005b0d0000 - 0x000000005b973000 	C:\Program Files\Java\jdk1.8.0_172\jre\bin\server\jvm.dll
+0x00007ffaa37e0000 - 0x00007ffaa37e8000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ffa9a120000 - 0x00007ffa9a144000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffa8e3d0000 - 0x00007ffa8e3d9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffa99bc0000 - 0x00007ffa99bca000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffaa3770000 - 0x00007ffaa37dd000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffa9a0f0000 - 0x00007ffa9a11d000 	C:\WINDOWS\SYSTEM32\winmmbase.dll
+0x00007ffaa2130000 - 0x00007ffaa217a000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x000000005ca60000 - 0x000000005ca6f000 	C:\Program Files\Java\jdk1.8.0_172\jre\bin\verify.dll
+0x000000005bcb0000 - 0x000000005bcd9000 	C:\Program Files\Java\jdk1.8.0_172\jre\bin\java.dll
+0x000000005b0b0000 - 0x000000005b0c6000 	C:\Program Files\Java\jdk1.8.0_172\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Declipse.application=org.eclipse.jdt.ls.core.id1 -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product -Xverify:none -Xmx1G -XX:+UseG1GC -XX:+UseStringDeduplication 
+java_command: C:\Users\Roeseth\.vscode\extensions\redhat.java-0.32.0\server\plugins\org.eclipse.equinox.launcher_1.5.200.v20180922-1751.jar -configuration C:\Users\Roeseth\.vscode\extensions\redhat.java-0.32.0\server\config_win -data c:\Users\Roeseth\AppData\Roaming\Code\User\workspaceStorage\4a1e96924657da1b9b265f688dc6362e\redhat.java\jdt_ws
+java_class_path (initial): C:\Users\Roeseth\.vscode\extensions\redhat.java-0.32.0\server\plugins\org.eclipse.equinox.launcher_1.5.200.v20180922-1751.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.8.0_172
+CLASSPATH=.;C:\Program Files (x86)\Java\jre1.8.0_45\lib\ext\QTJava.zip
+USERNAME=Roeseth
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 158 Stepping 10, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.1)
+
+CPU:total 12 (initial active 12) (6 cores per cpu, 2 threads per core) family 6 model 158 stepping 10, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
+
+Memory: 4k page, physical 33454708k(13802928k free), swap 38553204k(91292k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.172-b11) for windows-amd64 JRE (1.8.0_172-b11), built on Mar 28 2018 21:21:52 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Wed Oct 10 01:04:52 2018
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

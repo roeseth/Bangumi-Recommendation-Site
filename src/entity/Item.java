@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.Set;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,12 +10,14 @@ public class Item {
 	
 	private int itemId;
 	private String name;
-	private int type;
 	private String summary;
 	private int episodes;
 	private double rating;
+	private double userScore;
 	private String imageUrl;
 	private String url;
+	private String date;
+	private Set<String> genres;
 	
 	public JSONObject toJSONObject() {
 		
@@ -20,12 +25,14 @@ public class Item {
 		try {
 			obj.put( "id", itemId );
 			obj.put( "name", name );
-			obj.put( "type", type );
 			obj.put( "summary", summary );
 			obj.put( "eps", episodes );
+			obj.put( "userScore", userScore );
 			obj.put( "rating", rating );
 			obj.put( "imageUrl", imageUrl );
 			obj.put( "url", url );
+			obj.put( "date", date );
+			obj.put( "genres", new JSONArray(genres) );
 		} catch ( JSONException e ) {
 			e.printStackTrace();
 		}
@@ -36,9 +43,11 @@ public class Item {
 	private Item( ItemBuilder builder ) {
 		this.itemId = builder.itemId;
 		this.name = builder.name;
-		this.type = builder.type;
+		this.date = builder.date;
 		this.summary = builder.summary;
 		this.episodes = builder.episodes;
+		this.genres = builder.genres;
+		this.userScore = builder.userScore;
 		this.rating = builder.rating;
 		this.imageUrl = builder.imageUrl;
 		this.url = builder.url;
@@ -54,10 +63,13 @@ public class Item {
 	}
 
 
-	public int getType() {
-		return type;
+	public double getUserScore() {
+		return userScore;
 	}
 
+	public String getDate() {
+		return date;
+	}
 
 	public String getSummary() {
 		return summary;
@@ -68,7 +80,10 @@ public class Item {
 		return episodes;
 	}
 
-
+	public Set<String> getGenres() {
+		return genres;
+	}
+	
 	public double getRating() {
 		return rating;
 	}
@@ -86,12 +101,14 @@ public class Item {
 	public static class ItemBuilder {
 		private int itemId;
 		private String name;
-		private int type;
 		private String summary;
 		private int episodes;
 		private double rating;
+		private double userScore;
 		private String imageUrl;
 		private String url;
+		private String date;
+		private Set<String> genres;
 		
 		public ItemBuilder setItemId( int itemId ) {
 			this.itemId = itemId;
@@ -103,13 +120,23 @@ public class Item {
 			return this;
 		}
 		
-		public ItemBuilder setType( int type ) {
-			this.type = type;
+		public ItemBuilder setUserScore( double userScore ) {
+			this.userScore = userScore;
 			return this;
 		}
 		
 		public ItemBuilder setSummary( String summary ) {
 			this.summary = summary;
+			return this;
+		}
+		
+		public ItemBuilder setDate( String date ) {
+			this.date = date;
+			return this;
+		}
+		
+		public ItemBuilder setGenres( Set<String> genres ) {
+			this.genres = genres;
 			return this;
 		}
 		

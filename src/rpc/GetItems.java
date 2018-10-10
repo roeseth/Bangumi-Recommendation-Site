@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 
 import entity.Item;
-import external.BangumiAPI;
+import external.JikanAPI;
 
 /**
  * Servlet implementation class GetItems
@@ -34,8 +34,8 @@ public class GetItems extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		BangumiAPI bangumiAPI = new BangumiAPI();
-		List<Item> items = bangumiAPI.search();
+		JikanAPI jikanAPI = new JikanAPI();
+		List<Item> items = jikanAPI.search("test", 0);
 		
 		// DB operations
 		
